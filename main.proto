@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package gendocu.sdk_generator.v3;
+
+option go_package = "git.gendocu.com/ZwgNzRgkZeWNscQDUPC2A7Kh2PB3/GendocuApis3.git/sdk/go/gendocu/git/v1/v1pb;v1pb";
+option java_multiple_files = true;
+option java_outer_classname = "GitServiceProto";
+option java_package = "com.gendocu.sdk_generator.v3";
+
+// The SdkGenerator is a service for managing builds, and code generation. It is used mostly by the Api Documentation UI. Some methods migth require authorization.
+service GitService {
+  //ListBranch is a method for listing a branches from any repository
+  rpc ListBranch(ListBranchRequest) returns (ListBranchResponse);
+}
+
+
+message ListBranchRequest {
+  oneof source {
+    string url = 100;
+    string id = 101;
+  }
+}
+
+message ListBranchResponse {
+  repeated Branch branches = 1;
+  string default_branch = 2;
+}
+
+message Branch {
+  string name = 1;
+  string ref_name = 2;
+  string hash = 3;
+}
+
+message GetRepoInsightsRequest {
+  Branch branch = 2;
+  oneof source {
+    string url = 100;
+    string id = 101;
+  }
+}
+
+message GetRepoInsightsResponse {
+  repeated string protoc_roots = 1;
+  string most_possible_protoc_root = 2;
+  string name_proposition = 3;
+}
